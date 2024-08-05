@@ -5,6 +5,10 @@
 </div>
 <br/>
 
+# Platform Support
+- OS X 10.11 (x86_64)
+- Other Linux like OS
+
 # How to build
 
 ### (1) Install requirements
