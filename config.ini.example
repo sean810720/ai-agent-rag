@@ -1,0 +1,11 @@
+[similarity-threshold]
+memory=0.88
+rag=0.8
+
+[openai]
+model=gpt-4
+api_key=Your-api-key
+
+[groq]
+model=llama-3.1-8b-instant
+api_key=Your-api-key
