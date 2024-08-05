@@ -5,7 +5,7 @@
 </div>
 <br/>
 
-## How to build
+# How to build
 
 ### (1) Install requirements
 ```
@@ -16,8 +16,11 @@ pip3 install -r requirements.txt
 ```
 mv ./config.ini.example ./config.ini
 ```
-and then update the "api_key" in content
+And then update "api_key" in content of config.ini
 
 
-## Run
+# Run
+```
 python3 ./ai-doctor.py
+```
+It will deploy a service with url: http://127.0.0.1:7860, just run it on your browser.
