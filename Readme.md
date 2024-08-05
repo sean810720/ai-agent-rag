@@ -5,11 +5,11 @@
 </div>
 <br/>
 
-# Platform Support
+## Platform Support
 - OS X 10.11 (x86_64)
 - Other Linux-like OS
 
-# How to Build
+## How to Build
 
 ### (1) Install requirements
 ```
@@ -23,7 +23,7 @@ mv ./config.ini.example ./config.ini
 And then update "api_key" in content of config.ini
 
 
-# Run
+## Run
 ```
 python3 ./ai-doctor.py
 ```
