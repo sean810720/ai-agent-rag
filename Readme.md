@@ -7,9 +7,9 @@
 
 # Platform Support
 - OS X 10.11 (x86_64)
-- Other Linux like OS
+- Other Linux-like OS
 
-# How to build
+# How to Build
 
 ### (1) Install requirements
 ```
