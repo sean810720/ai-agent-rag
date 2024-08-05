@@ -3,3 +3,9 @@
     <span style="float:left;"><img width="100%" src="./img/index.png"></span>
 </div>
 <br/>
+
+## How to build
+pip3 install -r requirements.txt
+
+## Run
+python3 ./ai-doctor.py
