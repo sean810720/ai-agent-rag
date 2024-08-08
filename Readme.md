@@ -6,16 +6,14 @@
 <br/>
 
 ## Technique Stacks
-Langchain
-Gradio
-Firebase Realtime Database
-Groq Llama3-8B
-OpenAI Embedding
-
+- Langchain
+- Gradio
+- Firebase Realtime Database
+- Groq Llama3-8B
+- OpenAI Embedding
 
 ## Methodology
 Native RAG with similarity threshold limit
-
 
 ## Platform Support
 - OS X 10.11 (x86_64)
