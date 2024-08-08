@@ -25,6 +25,12 @@ Native RAG with similarity threshold limit
 
 ## How to Build
 
+### (0) Get Groq API key
+At first, register a free Groq account and get the API key from here：<br/>
+https://console.groq.com/login
+<br/>
+
+
 ### (1) Install requirements
 ```
 pip3 install -r requirements.txt
