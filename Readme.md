@@ -11,13 +11,16 @@
 - Firebase Realtime Database
 - Groq Llama3-8B
 - OpenAI Embedding
+<br/>
 
 ## Methodology
 Native RAG with similarity threshold limit
+<br/>
 
 ## Platform Support
 - OS X 10.11 (x86_64)
 - Other Linux-like OS
+<br/>
 
 ## How to Build
 
@@ -31,7 +34,7 @@ pip3 install -r requirements.txt
 mv ./config.ini.example ./config.ini
 ```
 Then update required "api_key" in the content of config.ini
-
+<br/>
 
 ## Run
 ```
