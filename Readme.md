@@ -16,6 +16,7 @@
 ## Methodology
 Native RAG with similarity threshold limit
 <br/>
+<br/>
 
 ## Platform Support
 - OS X 10.11 (x86_64)
@@ -34,6 +35,7 @@ pip3 install -r requirements.txt
 mv ./config.ini.example ./config.ini
 ```
 Then update required "api_key" in the content of config.ini
+<br/>
 <br/>
 
 ## Run
