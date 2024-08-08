@@ -5,6 +5,18 @@
 </div>
 <br/>
 
+## Technique Stacks
+Langchain
+Gradio
+Firebase Realtime Database
+Groq Llama3-8B
+OpenAI Embedding
+
+
+## Methodology
+Native RAG with similarity threshold limit
+
+
 ## Platform Support
 - OS X 10.11 (x86_64)
 - Other Linux-like OS
@@ -20,11 +32,11 @@ pip3 install -r requirements.txt
 ```
 mv ./config.ini.example ./config.ini
 ```
-And then update "api_key" in content of config.ini
+Then update required "api_key" in the content of config.ini
 
 
 ## Run
 ```
 python3 ./ai-doctor.py
 ```
-It will deploy a service with url: http://127.0.0.1:7860, just run it on your browser.
+It will deploy a local web server at: http://127.0.0.1:7860, just run it on your browser.
