@@ -27,9 +27,8 @@ Native RAG with similarity threshold limit
 
 ### (0) Get Groq API key
 At first, register a free Groq account and get the API key from here：<br/>
-https://console.groq.com/login
+<a href="https://console.groq.com/login" target="_blank">https://console.groq.com/login</a>
 <br/>
-
 
 ### (1) Install requirements
 ```
