@@ -43,7 +43,7 @@ Then update required "api_key" in the content of config.ini
 <br/>
 <br/>
 
-## Run
+## How to Run
 ```
 python3 ./ai-doctor.py
 ```
