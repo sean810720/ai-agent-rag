@@ -33,7 +33,7 @@ Register a free Groq account and get the API key from here：<br/>
 <br/><br/>
 (2) OpenAI<br/>
 Register a paid OpenAI account and get the API key from here：<br/>
-<a href="https://console.groq.com/login" target="_blank">https://console.groq.com/login</a>
+<a href="https://platform.openai.com/" target="_blank">https://platform.openai.com/</a>
 <br/>
 
 ### 2. Install requirements
@@ -58,7 +58,6 @@ python3 ./ai-doctor.py
 
 - Agent with chat memory and RAG function calling
 ```
-# Agent with chat memory and RAG function calling
 python3 ./ai-doctor-agent.py
 ```
 <br/>
