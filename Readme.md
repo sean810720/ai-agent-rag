@@ -11,11 +11,12 @@
 - Firebase Realtime Database
 - Groq Llama3-8B
 - OpenAI Embedding
+- OpenAI GPT4
 <br/>
 
 ## Methodology
-Native RAG with similarity threshold limit
-<br/>
+- Conversational native RAG
+- Agent with chat memory and RAG function calling
 <br/>
 
 ## Platform Support
@@ -25,17 +26,22 @@ Native RAG with similarity threshold limit
 
 ## How to Build
 
-### (0) Get Groq API key
-At first, register a free Groq account and get the API key from here：<br/>
+### 1. Get API key
+(1) Groq<br/>
+Register a free Groq account and get the API key from here：<br/>
+<a href="https://console.groq.com/login" target="_blank">https://console.groq.com/login</a>
+<br/><br/>
+(2) OpenAI<br/>
+Register a paid OpenAI account and get the API key from here：<br/>
 <a href="https://console.groq.com/login" target="_blank">https://console.groq.com/login</a>
 <br/>
 
-### (1) Install requirements
+### 2. Install requirements
 ```
 pip3 install -r requirements.txt
 ```
 
-### (2) Edit config.ini
+### 3. Edit config.ini
 ```
 mv ./config.ini.example ./config.ini
 ```
@@ -44,7 +50,17 @@ Then update required "api_key" in the content of config.ini
 <br/>
 
 ## How to Run
+- Conversational native RAG
 ```
 python3 ./ai-doctor.py
 ```
+<br/>
+
+- Agent with chat memory and RAG function calling
+```
+# Agent with chat memory and RAG function calling
+python3 ./ai-doctor-agent.py
+```
+<br/>
+
 It will deploy a local web server at: http://127.0.0.1:7860, just run it on your browser.
