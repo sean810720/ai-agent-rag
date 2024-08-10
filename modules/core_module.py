@@ -54,7 +54,7 @@ def FindSimalarestAnswer(messageEmbedded, jsons, mode='RAG'):
                 correct= True
             else:
                 answer = "這個問題超出可回答範圍"
-    print("\n{} 搜尋結果: {}".format(mode, answer))
+    print("\n{} 搜尋結果: {}\n".format(mode, answer))
     return answer, qa, correct
 
 

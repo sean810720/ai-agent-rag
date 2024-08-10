@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import uuid
 
 # 載入 Gradio
 import gradio as gr
@@ -70,7 +69,7 @@ model = ChatOpenAI(model_name=config.get(
         'openai',
         'model'
     ),
-    temperature=0.5,
+    temperature=0,
     streaming=True,
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
 )
@@ -115,11 +114,13 @@ template = '''
 提到醫學專有名詞時避免過於專業的術語或技術性細節
 請潤飾所有回答為你的語氣
 不管多少字都只用繁體中文輸出
+盡量用工具回答大部分問題
 '''
 system_message_prompt = SystemMessagePromptTemplate.from_template(template)
 human_template = """
 {input}
-不用任何帶解釋說明與格式
+如果是透過工具取得的內容用你的語氣潤飾即可
+如果是透過工具取得的內容不用任何帶解釋說明與格式
 只用繁體中文回答
 """
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
