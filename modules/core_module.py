@@ -27,7 +27,7 @@ def FindSimalarestAnswer(messageEmbedded, jsons, mode='RAG'):
     # 找出最相似 Q&A
     similarity = max(qas_similarity)
     qa = qas[qas_similarity.index(similarity)]
-    print("\n{} 最接近問題: {} (相似度: {})".format(mode, qa['question'], similarity))
+    print("\n===== RAG semantic search =====\n\n{} 最接近問題: {} (相似度: {})".format(mode, qa['question'], similarity))
     print("\n{} 最接近回答: {} (相似度: {})".format(mode, qa['answer'], similarity))
 
     # 相似門檻檢查
@@ -54,7 +54,7 @@ def FindSimalarestAnswer(messageEmbedded, jsons, mode='RAG'):
                 correct= True
             else:
                 answer = "這個問題超出可回答範圍"
-    print("\n{} 搜尋結果: {}\n".format(mode, answer))
+    print("\n{} 搜尋結果: {}\n\n===== AI response =====\n".format(mode, answer))
     return answer, qa, correct
 
 

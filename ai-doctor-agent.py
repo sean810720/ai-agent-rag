@@ -140,6 +140,7 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 
 # 機器人開講
 async def Chat(message, history):
+    print("\n\n\n\n===== User input =====\n\n{}".format(message))
 
     # Agent 設定
     agent = create_tool_calling_agent(llm_forced_to_use_tool, tools, prompt)
@@ -177,7 +178,11 @@ chatbot = gr.ChatInterface(
     title="DR. 數位醫師 Agent 版",
     description=None,
     theme="ParityError/Anime",
-    examples=["要怎麼預防癌症?", "我有乳癌怎麼辦?"],
+    examples=[
+        "什麼是精準醫療",
+        "要怎麼預防癌症?",
+        "良性腫瘤、惡性腫瘤、乳房鈣化，分別代表什麼？分別要如何治療？"
+    ],
     cache_examples=False,
     submit_btn="發問 ▶️",
     retry_btn=None,
