@@ -192,4 +192,5 @@ chatbot = gr.ChatInterface(
 ).queue()
 
 if __name__ == "__main__":
+    #chatbot.launch(share=True)
     chatbot.launch()
