@@ -112,15 +112,15 @@ template = '''
 提到醫學專有名詞時解釋為容易理解的語言
 提到醫學專有名詞時使用生活化比喻性例子解釋
 提到醫學專有名詞時避免過於專業的術語或技術性細節
-請潤飾所有回答為你的語氣
+請潤飾所有透過工具的回答為你的語氣
 不管多少字都只用繁體中文輸出
-盡量用工具回答大部分問題
+優先只透過工具回答大部分疑難問題
 '''
 system_message_prompt = SystemMessagePromptTemplate.from_template(template)
 human_template = """
 {input}
-如果是透過工具取得的內容用你的語氣潤飾即可
-如果是透過工具取得的內容不用任何帶解釋說明與格式
+如果是透過工具取得的內容用你的語氣潤飾並保持大部分原始內容
+如果是透過工具取得的內容回答不用任何帶解釋說明與格式
 只用繁體中文回答
 """
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
@@ -132,6 +132,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # 記憶初始化
+session_id = '127.0.0.1'
 store = {}
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
@@ -139,8 +140,15 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     return store[session_id]
 
 # 機器人開講
-async def Chat(message, history):
-    print("\n\n\n\n===== User input =====\n\n{}".format(message))
+async def Chat(message, history, request: gr.Request):
+
+    # 使用者 IP
+    if(request):
+        session_id = request.client.host
+        print("\n\n===== User Session ID =====\n\n{}".format(session_id))
+
+    # 使用者輸入
+    print("\n\n===== User input =====\n\n{}".format(message))
 
     # Agent 設定
     agent = create_tool_calling_agent(llm_forced_to_use_tool, tools, prompt)
@@ -149,20 +157,21 @@ async def Chat(message, history):
         agent_executor,
         get_session_history,
         input_messages_key="input",
-        history_messages_key="chat_history",
+        history_messages_key="chat_history"
     )
 
     # 輸出結果
     partial_message = ''
     async for event in agent_with_chat_history.astream_events(
         {"input": message},
-        config={"configurable": {"session_id": "<foo>"}},
+        config={"configurable": {"session_id": session_id}},
         version="v1",
     ):
         kind = event["event"]
         if kind == "on_chat_model_stream":
             partial_message += event['data']['chunk'].content
             yield(partial_message)
+    print("\n\n===== AI response =====\n\n{}".format(partial_message))
 
 
 # Chatbot
@@ -175,12 +184,12 @@ chatbot = gr.ChatInterface(
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg")))
     ),
     textbox=gr.Textbox(placeholder="輸入任何問題", container=False, scale=7),
-    title="DR. 數位醫師 Agent 版",
+    title="數位化張P",
     description=None,
     theme="ParityError/Anime",
     examples=[
         "什麼是精準醫療",
-        "要怎麼預防癌症?",
+        "三陰性乳癌治療方式有哪些？",
         "良性腫瘤、惡性腫瘤、乳房鈣化，分別代表什麼？分別要如何治療？"
     ],
     cache_examples=False,
