@@ -9,9 +9,9 @@
 - Langchain
 - Gradio
 - Firebase Realtime Database
-- Groq Llama3-8B
+- Groq Llama3-8b
 - OpenAI Embedding
-- OpenAI GPT4
+- OpenAI GPT4o-mini
 <br/>
 
 ## Methodology

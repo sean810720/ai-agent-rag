@@ -3,7 +3,7 @@ memory=0.88
 rag=0.8
 
 [openai]
-model=gpt-4
+model=gpt-4o-mini
 api_key=Your-api-key
 
 [groq]
