@@ -69,7 +69,7 @@ model = ChatOpenAI(model_name=config.get(
         'openai',
         'model'
     ),
-    temperature=0,
+    temperature=0.5,
     streaming=True,
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
 )
@@ -92,6 +92,7 @@ async def rag_doctor_answer(message: str) -> str:
     詢問任何醫療資源問題
     詢問任何醫學相關問題
     詢問任何疑難雜症
+    詢問任何問題
     '''
     # 輸入文字處理
     message = message.strip().replace('\n', '')
@@ -107,22 +108,23 @@ llm_forced_to_use_tool = model.bind_tools(tools, tool_choice="any")
 
 # Prompt 初始化
 template = '''
-你是一位專業醫師
+你是一位經驗豐富又熱心的專業醫師
 你的回答語氣專業嚴謹又不開玩笑
 提到醫學專有名詞時解釋為容易理解的語言
 提到醫學專有名詞時使用生活化比喻性例子解釋
 提到醫學專有名詞時避免過於專業的術語或技術性細節
-請潤飾所有透過工具的回答為你的語氣
-不管多少字都只用繁體中文輸出
-優先只透過工具回答大部分疑難問題
+如果是寒暄或禮貌性提問，不使用工具與記憶，只回應對應的禮貌性回答，例如：「Human: 醫生你好 AI: 你好，有任何醫療問題我都可以協助您喔」
+除了寒暄或禮貌性提問請優先透過工具回答問題
+請潤飾所有透過工具取得的內容為你的語氣
+不管多少字都只用繁體中文回答
 '''
 system_message_prompt = SystemMessagePromptTemplate.from_template(template)
-human_template = """
+human_template = '''
 {input}
-如果是透過工具取得的內容用你的語氣潤飾並保持大部分原始內容
+如果是透過工具取得的內容用你的語氣進行潤飾與擴增
 如果是透過工具取得的內容回答不用任何帶解釋說明與格式
 只用繁體中文回答
-"""
+'''
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
 prompt = ChatPromptTemplate.from_messages([
     system_message_prompt,
@@ -132,7 +134,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # 記憶初始化
-session_id = '127.0.0.1'
+session_id = '<foo>'
 store = {}
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
@@ -142,39 +144,42 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 # 機器人開講
 async def Chat(message, history, request: gr.Request):
 
-    # 使用者 IP
+    # 使用者 Session Hash
     if(request):
-        session_id = request.client.host
+        session_id = request.session_hash
         print("\n\n===== User Session ID =====\n\n{}".format(session_id))
 
     # 使用者輸入
     print("\n\n===== User input =====\n\n{}".format(message))
 
-    # Agent 設定
-    agent = create_tool_calling_agent(llm_forced_to_use_tool, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools)
-    agent_with_chat_history = RunnableWithMessageHistory(
-        agent_executor,
-        get_session_history,
-        input_messages_key="input",
-        history_messages_key="chat_history"
-    )
+    if not len(message):
+        print("\n\n===== AI response =====\n\n哈囉，請問您想問些什麼呢?\n\n")
+        yield "哈囉，請問您想問些什麼呢?"
 
-    # 輸出結果
-    partial_message = ''
-    async for event in agent_with_chat_history.astream_events(
-        {"input": message},
-        config={"configurable": {"session_id": session_id}},
-        version="v1",
-    ):
-        kind = event["event"]
-        if kind == "on_chat_model_stream":
-            partial_message += event['data']['chunk'].content
-            yield(partial_message)
-    print("\n\n===== AI response =====\n\n{}".format(partial_message))
+    else:
+        # Agent 設定
+        agent = create_tool_calling_agent(llm_forced_to_use_tool, tools, prompt)
+        agent_executor = AgentExecutor(agent=agent, tools=tools)
+        agent_with_chat_history = RunnableWithMessageHistory(
+            agent_executor,
+            get_session_history,
+            input_messages_key="input",
+            history_messages_key="chat_history"
+        )
 
+        # 輸出結果
+        partial_message = ''
+        async for event in agent_with_chat_history.astream_events(
+            {"input": message},
+            config={"configurable": {"session_id": session_id}},
+            version="v1",
+        ):
+            kind = event["event"]
+            if kind == "on_chat_model_stream":
+                partial_message += event['data']['chunk'].content
+                yield(partial_message)
+        print("\n\n===== AI response =====\n\n{}\n\n".format(partial_message))
 
-# Chatbot
 chatbot = gr.ChatInterface(
     Chat,
     chatbot=gr.Chatbot(
@@ -201,5 +206,4 @@ chatbot = gr.ChatInterface(
 ).queue()
 
 if __name__ == "__main__":
-    #chatbot.launch(share=True)
     chatbot.launch()
