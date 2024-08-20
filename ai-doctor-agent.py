@@ -195,7 +195,7 @@ chatbot = gr.ChatInterface(
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg")))
     ),
     textbox=gr.Textbox(placeholder="輸入任何問題", container=False, scale=7),
-    title="Dr. 數位醫師",
+    title="Dr.數位醫師",
     description=None,
     theme="ParityError/Anime",
     examples=[
