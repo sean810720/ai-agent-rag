@@ -41,5 +41,5 @@ git add -A
 git commit -am "commit message here"
 git push heroku master
 ```
-### (3) Open the Heroku app URL
-for example: <a href="https://ai-doctor-agent-756a5f6cc527.herokuapp.com/" target="_blank">https://ai-doctor-agent-756a5f6cc527.herokuapp.com/</a>
+### (3) Open the Heroku App URL
+Our example: <a href="https://ai-doctor-agent-756a5f6cc527.herokuapp.com/" target="_blank">https://ai-doctor-agent-756a5f6cc527.herokuapp.com/</a>
