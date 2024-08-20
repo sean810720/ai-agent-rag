@@ -27,9 +27,20 @@ And then update "api_key" in content of config.ini
 ```
 python3 ./ai-doctor.py
 ```
-It will deploy a service at: http://127.0.0.1:7860, just run it with your browser.
+It will deploy a service at: http://127.0.0.1:7860, just run it with your browser.<br/>
+Or you can build it on Heroku, follow the steps blew: <br/>
 
+### Heroku Deploy
+### (1) Build a random app
 ```
-Heroku Deploy:
-https://ai-doctor-agent-756a5f6cc527.herokuapp.com/
+heroku create
 ```
+### (2) Push to Heroku
+```
+git init
+git add -A
+git commit -am "commit message here"
+git push heroku master
+```
+### (3) Open the Heroku app URL
+for example: <a href="https://ai-doctor-agent-756a5f6cc527.herokuapp.com/" target="_blank">https://ai-doctor-agent-756a5f6cc527.herokuapp.com/</a>
