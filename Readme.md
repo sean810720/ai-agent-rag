@@ -30,7 +30,7 @@ python3 ./ai-doctor.py
 It will deploy a service at: http://127.0.0.1:7860, just run it with your browser.<br/>
 Or you can build it on Heroku, following below steps: <br/>
 
-### (1) Build a random app
+### (1) Build a random Heroku App
 ```
 heroku create
 ```
