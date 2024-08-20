@@ -62,14 +62,19 @@ embeddings = OpenAIEmbeddings()
         'model'
     ),
     temperature=0.5,
+    max_tokens=3000,
+    n=1,
     streaming=True,
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
-) """
+)
+"""
 model = ChatOpenAI(model_name=config.get(
         'openai',
         'model'
     ),
     temperature=0.5,
+    max_tokens=3000,
+    n=1,
     streaming=True,
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
 )
@@ -123,6 +128,7 @@ human_template = '''
 {input}
 如果是透過工具取得的內容用你的語氣進行潤飾與擴增
 如果是透過工具取得的內容回答不用任何帶解釋說明與格式
+如果是寒暄或禮貌性提問，不使用工具與記憶，只回應對應的禮貌性回答，例如：「Human: 醫生你好 AI: 你好，有任何醫療問題我都可以協助您喔」
 只用繁體中文回答
 '''
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
@@ -147,10 +153,10 @@ async def Chat(message, history, request: gr.Request):
     # 使用者 Session Hash
     if(request):
         session_id = request.session_hash
-        print("\n\n===== User Session ID =====\n\n{}".format(session_id))
+    print("\n\n===== User Session ID =====\n\n{}".format(session_id))
 
     # 使用者輸入
-    print("\n\n===== User input =====\n\n{}".format(message))
+    print("\n===== User input =====\n\n{}".format(message))
 
     if not len(message):
         print("\n\n===== AI response =====\n\n哈囉，請問您想問些什麼呢?\n\n")
@@ -189,7 +195,7 @@ chatbot = gr.ChatInterface(
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg")))
     ),
     textbox=gr.Textbox(placeholder="輸入任何問題", container=False, scale=7),
-    title="數位化張P",
+    title="Dr. 數位醫師",
     description=None,
     theme="ParityError/Anime",
     examples=[
