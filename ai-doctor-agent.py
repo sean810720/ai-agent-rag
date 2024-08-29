@@ -104,6 +104,8 @@ async def rag_doctor_answer(message: str) -> str:
     messageEmbedded = embeddings.embed_query(message)
 
     # 比較向量庫
+    if 'error' in jsons:
+        return '知識庫用量超出當日上限，請24小時後再操作，感謝'
     answer, qa, correct = FindSimalarestAnswer(messageEmbedded, jsons, 'RAG')
     return answer
 
@@ -208,7 +210,8 @@ chatbot = gr.ChatInterface(
     retry_btn=None,
     undo_btn=None,
     clear_btn=None,
-    stop_btn="停止 ⏸"
+    stop_btn="停止 ⏸",
+    css="footer {visibility: hidden}"
 ).queue()
 
 if __name__ == "__main__":
