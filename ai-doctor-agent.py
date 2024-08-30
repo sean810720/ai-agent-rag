@@ -191,7 +191,6 @@ async def Chat(message, history, request: gr.Request):
 chatbot = gr.ChatInterface(
     Chat,
     chatbot=gr.Chatbot(
-        height=500,
         label="諮詢記錄",
         bubble_full_width=False,
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg")))
