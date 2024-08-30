@@ -193,7 +193,8 @@ chatbot = gr.ChatInterface(
     chatbot=gr.Chatbot(
         label="諮詢記錄",
         bubble_full_width=False,
-        avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg")))
+        avatar_images=(None, (os.path.join(os.path.dirname(__file__), "img/AIP.jpg"))),
+        elem_id="chatbot"
     ),
     textbox=gr.Textbox(placeholder="輸入任何問題", container=False, scale=7),
     title="Dr.數位醫師",
@@ -210,7 +211,13 @@ chatbot = gr.ChatInterface(
     undo_btn=None,
     clear_btn=None,
     stop_btn="停止 ⏸",
-    css="footer {visibility: hidden}"
+    css="""
+    footer {visibility: hidden}
+    #chatbot {
+        flex-grow: 1 !important;
+        overflow: auto !important;
+    }
+    """
 ).queue()
 
 if __name__ == "__main__":
