@@ -108,7 +108,8 @@ async def rag_doctor_answer(message: str) -> str:
     '''
     # 輸入文字處理
     message = message.strip().replace('\n', '')
-    return chat_engine.chat(message)
+    answer = chat_engine.chat(message)
+    return answer
 
 # Tools 設定
 tools = [rag_doctor_answer]
@@ -177,16 +178,25 @@ async def Chat(message, history, request: gr.Request):
         )
 
         # 輸出結果
-        partial_message = ''
+        yield "（思考中）"
+        partial_message = ""
+        count = 0
         async for event in agent_with_chat_history.astream_events(
             {"input": message},
             config={"configurable": {"session_id": session_id}},
             version="v1",
         ):
+            if count == 0:
+                yield "（思考中）"
+
             kind = event["event"]
             if kind == "on_chat_model_stream":
-                partial_message += event['data']['chunk'].content
-                yield(partial_message)
+                count += 1
+                if count == 1:
+                    partial_message = event['data']['chunk'].content
+                else:
+                    partial_message += event['data']['chunk'].content
+                yield partial_message
         print("\n\n===== AI response =====\n\n{}\n\n".format(partial_message))
 
 chatbot = gr.ChatInterface(
