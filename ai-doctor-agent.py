@@ -31,8 +31,7 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 # 載入 Langchain OpenAI
 from langchain_openai import (
-    ChatOpenAI,
-    OpenAIEmbeddings
+    ChatOpenAI
 )
 
 # 載入核心模組
@@ -55,7 +54,6 @@ os.environ["OPENAI_API_KEY"] = config.get(
     'openai',
     'api_key'
 )
-embeddings = OpenAIEmbeddings()
 
 # LLM 初始化
 """ model = ChatGroq(model_name=config.get(
