@@ -40,8 +40,9 @@ from modules.core_module import(
 )
 
 # 載入 LlamaIndex
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.llms.openai import OpenAI
+from llama_index.core.node_parser import SentenceSplitter
 
 # Groq 初始化
 os.environ["GROQ_API_KEY"] = config.get(
@@ -78,13 +79,17 @@ model = ChatOpenAI(model_name=config.get(
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
 )
 
-# Llama Index 初始化
+# LlamaIndex 初始化
 llm = OpenAI(model=config.get(
         'openai',
         'model'
 ))
-data = SimpleDirectoryReader(input_dir="./data/").load_data()
-index = VectorStoreIndex.from_documents(data)
+documents = SimpleDirectoryReader(input_dir="./data").load_data()
+Settings.text_splitter = SentenceSplitter(chunk_size=1024, chunk_overlap=20)
+index = VectorStoreIndex.from_documents(
+    documents,
+    transformations=[SentenceSplitter(chunk_size=1024, chunk_overlap=20)],
+)
 chat_engine = index.as_chat_engine(chat_mode="openai", llm=llm, verbose=True)
 
 # 工具初始化
@@ -103,8 +108,7 @@ async def rag_doctor_answer(message: str) -> str:
     '''
     # 輸入文字處理
     message = message.strip().replace('\n', '')
-    answer = chat_engine.chat(message)
-    return answer
+    return chat_engine.chat(message)
 
 # Tools 設定
 tools = [rag_doctor_answer]
@@ -155,7 +159,7 @@ async def Chat(message, history, request: gr.Request):
     print("\n\n===== User Session ID =====\n\n{}".format(session_id))
 
     # 使用者輸入
-    print("\n===== User input =====\n\n{}".format(message))
+    print("\n===== User input =====\n\n{}\n\n".format(message))
 
     if not len(message):
         print("\n\n===== AI response =====\n\n哈囉，請問您想問些什麼呢?\n\n")
@@ -198,9 +202,9 @@ chatbot = gr.ChatInterface(
     description=None,
     theme="ParityError/Anime",
     examples=[
-        "什麼是精準醫療",
-        "三陰性乳癌治療方式有哪些？",
-        "良性腫瘤、惡性腫瘤、乳房鈣化，分別代表什麼？分別要如何治療？"
+        "什麼是精準醫療?",
+        "三陰性乳癌治療方式有哪些?",
+        "良性腫瘤、惡性腫瘤、乳房鈣化，分別代表什麼？分別要如何治療?"
     ],
     cache_examples=False,
     submit_btn="發問 ▶️",
