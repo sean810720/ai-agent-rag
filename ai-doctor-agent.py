@@ -1,6 +1,4 @@
 import os
-import requests
-import json
 
 # 載入 Gradio
 import gradio as gr
@@ -39,9 +37,12 @@ from langchain_openai import (
 
 # 載入核心模組
 from modules.core_module import(
-    config,
-    FindSimalarestAnswer
+    config
 )
+
+# 載入 LlamaIndex
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.llms.openai import OpenAI
 
 # Groq 初始化
 os.environ["GROQ_API_KEY"] = config.get(
@@ -79,11 +80,14 @@ model = ChatOpenAI(model_name=config.get(
     callbacks=CallbackManager([StreamingStdOutCallbackHandler()])
 )
 
-# QA 初始化
-res = requests.get(
-    "https://starnic-linebot-default-rtdb.firebaseio.com/ClinicQA.json", verify=True)
-res.encoding = 'utf8'
-jsons = json.loads(res.text)
+# Llama Index 初始化
+llm = OpenAI(model=config.get(
+        'openai',
+        'model'
+))
+data = SimpleDirectoryReader(input_dir="./data/").load_data()
+index = VectorStoreIndex.from_documents(data)
+chat_engine = index.as_chat_engine(chat_mode="openai", llm=llm, verbose=True)
 
 # 工具初始化
 @tool
@@ -101,12 +105,7 @@ async def rag_doctor_answer(message: str) -> str:
     '''
     # 輸入文字處理
     message = message.strip().replace('\n', '')
-    messageEmbedded = embeddings.embed_query(message)
-
-    # 比較向量庫
-    if 'error' in jsons:
-        return '知識庫用量超出當日上限，請24小時後再操作，感謝'
-    answer, qa, correct = FindSimalarestAnswer(messageEmbedded, jsons, 'RAG')
+    answer = chat_engine.chat(message)
     return answer
 
 # Tools 設定
@@ -197,7 +196,7 @@ chatbot = gr.ChatInterface(
         elem_id="chatbot"
     ),
     textbox=gr.Textbox(placeholder="輸入任何問題", container=False, scale=7),
-    title="Dr.數位醫師",
+    title="Dr. 數位醫師",
     description=None,
     theme="ParityError/Anime",
     examples=[
