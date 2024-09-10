@@ -169,7 +169,7 @@ async def Chat(message, history, request: gr.Request):
     else:
         # Agent 設定
         agent = create_tool_calling_agent(llm_forced_to_use_tool, tools, prompt)
-        agent_executor = AgentExecutor(agent=agent, tools=tools)
+        agent_executor = AgentExecutor(agent=agent, tools=tools,verbose=False)
         agent_with_chat_history = RunnableWithMessageHistory(
             agent_executor,
             get_session_history,
