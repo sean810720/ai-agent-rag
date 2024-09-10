@@ -178,7 +178,6 @@ async def Chat(message, history, request: gr.Request):
         )
 
         # 輸出結果
-        yield "（思考中）"
         partial_message = ""
         count = 0
         async for event in agent_with_chat_history.astream_events(
