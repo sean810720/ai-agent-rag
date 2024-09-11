@@ -195,7 +195,7 @@ chatbot = gr.ChatInterface(
         elem_id="chatbot"
     ),
     textbox=gr.Textbox(placeholder="輸入任何想問的問題", container=False, scale=7),
-    title="AI RAG 助理",
+    title="AI 小助理",
     description=None,
     theme="ParityError/Anime",
     examples=None,
@@ -211,7 +211,9 @@ chatbot = gr.ChatInterface(
         flex-grow: 1 !important;
         overflow: auto !important;
     }
-    """
+    """,
+    fill_width=True,
+    fill_height=True
 ).queue()
 
 if __name__ == "__main__":
