@@ -1,1 +1,1 @@
-web: source setup.sh && python ai-doctor-agent.py
+web: source setup.sh && python ai-agent.py
