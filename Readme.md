@@ -39,7 +39,7 @@ heroku create
 git init
 git add -A
 git commit -m "commit message here"
-heroku git:remote -a Your-Heroku-Git-URL
+heroku git:remote -a Your-Heroku-Project-Name
 git push heroku master
 ```
 ### (3) Open the Heroku App URL
