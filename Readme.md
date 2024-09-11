@@ -1,10 +1,7 @@
 <p align="center"><h1>A Digital Agent POC with RAG and LLM</h1></p>
-<!--
 <div width="100%">
-    <span style="float:left;"><img width="49%" src="./img/index.png"></span>
-    <span style="float:left;"><img width="49%" src="./img/index.gif"></span>
+    <img width="100%" src="./img/index.png">
 </div>
--->
 <br/>
 
 ## Platform Support
