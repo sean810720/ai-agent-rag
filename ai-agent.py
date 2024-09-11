@@ -195,7 +195,7 @@ chatbot = gr.ChatInterface(
         elem_id="chatbot"
     ),
     textbox=gr.Textbox(placeholder="輸入任何想問的問題", container=False, scale=7),
-    title="AI Agent",
+    title="AI RAG 助理",
     description=None,
     theme="ParityError/Anime",
     examples=None,
