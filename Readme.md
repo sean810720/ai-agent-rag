@@ -43,4 +43,4 @@ heroku git:remote -a Your-Heroku-Git-URL
 git push heroku master
 ```
 ### (3) Open the Heroku App URL
-Our example: <a href="https://ai-doctor-agent-756a5f6cc527.herokuapp.com/" target="_blank">https://ai-doctor-agent-756a5f6cc527.herokuapp.com/</a>
+Our example: <a href="https://ai-rag-agent-5c4cb6baedb8.herokuapp.com/" target="_blank">https://ai-rag-agent-5c4cb6baedb8.herokuapp.com</a>
